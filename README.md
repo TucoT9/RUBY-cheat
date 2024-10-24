@@ -1,10 +1,12 @@
-Roblox ESP & Hitbox Cheat
+#                                                                                                RUBY-CHEAT
+
+The frontline ESP & Hitbox Cheat
 Created by TucoT9
 
-Description
+# Description
 This script enhances player perception and modifies the environment in Roblox by adding ESP (Extra Sensory Perception) and automatic hitboxes to make it easier to detect and engage enemy models.
 
-Features:
+# Features:
 ESP Enhancements:
 Displays boxes around enemy models (enabled by default)
 Names and tracers for enemies (disabled by default, configurable)
