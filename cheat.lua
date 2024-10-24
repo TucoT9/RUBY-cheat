@@ -20,8 +20,7 @@ game.StarterGui:SetCore("SendNotification", {
 })
 
 -- Laden der ESP-Einheit
-local esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/TucoT9/RUBY-cheat/main/esp.lua
-"))()
+local esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/TucoT9/RUBY-cheat/main/esp.lua"))()
 esp:Toggle(true)
 
 -- Konfiguration der ESP-Einstellungen
