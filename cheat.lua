@@ -4,7 +4,7 @@
 ]]
 
 -- Setze Hitbox-Größe, Transparenz-Level und Benachrichtigungsstatus
-local size = Vector3.new(10, 10, 10)
+local size = Vector3.new(25, 25, 25)
 local trans = 1
 local notifications = false
  
@@ -14,7 +14,7 @@ local start = os.clock()
 -- Sende eine Benachrichtigung, dass das Skript geladen wird
 game.StarterGui:SetCore("SendNotification", {
    Title = "TucoT9",
-   Text = "Skript wird geladen...",
+   Text = "Der Cheat ist am injecten...",
    Icon = "",
    Duration = 5
 })
@@ -33,7 +33,7 @@ esp.Players = false
 esp:AddObjectListener(workspace, {
    Name = "soldier_model",
    Type = "Model",
-   Color = Color3.fromRGB(255, 0, 4),
+   Color = Color3.fromRGB(255, 20, 147),
 
    -- Bestimme das primäre Teil des Modells als den HumanoidRootPart
    PrimaryPart = function(obj)
