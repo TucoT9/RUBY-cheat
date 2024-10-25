@@ -134,7 +134,7 @@ end
 -- Sende eine Benachrichtigung, wie lange das Skript zum Laden benötigt hat und dessen Bewertung
 game.StarterGui:SetCore("SendNotification", {
    Title = "TucoT9",
-   Text = string.format("Skript geladen in %.2f Sekunden (%s Laden)", time, rating),
+   Text = string.format("Cheat wurde in %.2f Sekunden (%s injected)", time, rating),
    Icon = "",
    Duration = 5
 })
