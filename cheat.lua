@@ -19,29 +19,6 @@ game.StarterGui:SetCore("SendNotification", {
    Duration = 5
 })
 
--- Funktion zur Erstellung einer Live FPS-Anzeige
-local function createFPSDisplay()
-    local screenGui = Instance.new("ScreenGui")
-    local fpsLabel = Instance.new("TextLabel")
-
-    screenGui.Parent = game.CoreGui
-
-    fpsLabel.Size = UDim2.new(0, 100, 0, 50)  -- Größe des Labels
-    fpsLabel.Position = UDim2.new(1, -120, 0, 10)  -- Position oben rechts
-    fpsLabel.BackgroundTransparency = 1  -- Hintergrundtransparent
-    fpsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Textfarbe Weiß
-    fpsLabel.TextScaled = true  -- Text skalieren
-    fpsLabel.TextStrokeTransparency = 0.5  -- Textkontur
-
-    while true do
-        local fps = math.floor(1 / game:GetService("RunService").Heartbeat:Wait())  -- FPS berechnen
-        fpsLabel.Text = "FPS: " .. fps  -- FPS im Label anzeigen
-    end
-end
-
--- Rufe die Funktion zur Erstellung der FPS-Anzeige auf
-createFPSDisplay()
-
 -- Laden der ESP-Einheit
 local esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/TucoT9/RUBY-cheat/main/esp.lua"))()
 esp:Toggle(true)
@@ -56,7 +33,7 @@ esp.Players = false
 esp:AddObjectListener(workspace, {
    Name = "soldier_model",
    Type = "Model",
-   Color = Color3.fromRGB(255, 0, 0)  -- Leuchtend Rot
+   Color = Color3.fromRGB(255, 0, 0),  -- Leuchtend Rot
 
    -- Bestimme das primäre Teil des Modells als den HumanoidRootPart
    PrimaryPart = function(obj)
@@ -79,7 +56,6 @@ esp:AddObjectListener(workspace, {
 
    -- Setze einen benutzerdefinierten Namen für die feindlichen Modelle
    CustomName = "?",
-
    -- Aktiviere die ESP für feindliche Modelle
    IsEnabled = "enemy"
 })
@@ -140,6 +116,70 @@ task.spawn(function()
    game.Workspace.DescendantAdded:Connect(handleDescendantAdded)
 end)
 
+-- Godmode-Funktionalität
+local godModeEnabled = false
+
+local function toggleGodMode()
+    godModeEnabled = not godModeEnabled
+    if godModeEnabled then
+        game.Players.LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+        game.Players.LocalPlayer.Character.Humanoid.Health = math.huge
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Godmode",
+            Text = "Godmode aktiviert!",
+            Icon = "",
+            Duration = 5
+        })
+    else
+        game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Godmode",
+            Text = "Godmode deaktiviert!",
+            Icon = "",
+            Duration = 5
+        })
+    end
+end
+
+-- Tasteneingabe für Godmode
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.P then
+        toggleGodMode()
+    end
+end)
+
+-- FPS-Anzeige erstellen
+local fpsLabel = Instance.new("TextLabel")
+fpsLabel.Size = UDim2.new(0, 100, 0, 50)
+fpsLabel.Position = UDim2.new(0.8, 0, 0, 0)  -- Position oben rechts
+fpsLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+fpsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+fpsLabel.TextScaled = true
+fpsLabel.Text = "FPS: 0"
+fpsLabel.Parent = game.CoreGui
+fpsLabel.BackgroundTransparency = 0.5  -- Leicht transparent
+
+-- Funktion zur Aktualisierung der FPS-Anzeige
+local lastTick = tick()
+local frameCount = 0
+local updateInterval = 1  -- Interval für die FPS-Aktualisierung in Sekunden
+
+-- Starte die FPS-Anzeige
+task.spawn(function()
+    while true do
+        frameCount = frameCount + 1
+        wait(0.03)  -- Grob 30 FPS
+        if tick() - lastTick >= updateInterval then
+            local fps = frameCount / (tick() - lastTick)
+            fpsLabel.Text = string.format("FPS: %.2f", fps)
+            frameCount = 0
+            lastTick = tick()
+        end
+    end
+end)
+
 -- Speichere die Endzeit, zu der der Code ausgeführt wird
 local finish = os.clock()
 
@@ -147,17 +187,17 @@ local finish = os.clock()
 local time = finish - start
 local rating
 if time < 3 then
-   rating = "schnell"
+    rating = "schnell"
 elseif time < 5 then
-   rating = "akzeptabel"
+    rating = "akzeptabel"
 else
-   rating = "langsam"
+    rating = "langsam"
 end
 
 -- Sende eine Benachrichtigung, wie lange das Skript zum Laden benötigt hat und dessen Bewertung
 game.StarterGui:SetCore("SendNotification", {
-   Title = "TucoT9",
-   Text = string.format("Cheat wurde in %.2f Sekunden (%s injected)", time, rating),
-   Icon = "",
-   Duration = 5
+    Title = "TucoT9",
+    Text = string.format("Cheat wurde in %.2f Sekunden (%s injected)", time, rating),
+    Icon = "",
+    Duration = 5
 })
