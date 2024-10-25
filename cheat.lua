@@ -7,7 +7,7 @@
 local size = Vector3.new(25, 25, 25)
 local trans = 1
 local notifications = false
- 
+
 -- Speichere die Startzeit, zu der der Code ausgeführt wird
 local start = os.clock()
 
@@ -18,6 +18,29 @@ game.StarterGui:SetCore("SendNotification", {
    Icon = "",
    Duration = 5
 })
+
+-- Funktion zur Erstellung einer Live FPS-Anzeige
+local function createFPSDisplay()
+    local screenGui = Instance.new("ScreenGui")
+    local fpsLabel = Instance.new("TextLabel")
+
+    screenGui.Parent = game.CoreGui
+
+    fpsLabel.Size = UDim2.new(0, 100, 0, 50)  -- Größe des Labels
+    fpsLabel.Position = UDim2.new(1, -120, 0, 10)  -- Position oben rechts
+    fpsLabel.BackgroundTransparency = 1  -- Hintergrundtransparent
+    fpsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Textfarbe Weiß
+    fpsLabel.TextScaled = true  -- Text skalieren
+    fpsLabel.TextStrokeTransparency = 0.5  -- Textkontur
+
+    while true do
+        local fps = math.floor(1 / game:GetService("RunService").Heartbeat:Wait())  -- FPS berechnen
+        fpsLabel.Text = "FPS: " .. fps  -- FPS im Label anzeigen
+    end
+end
+
+-- Rufe die Funktion zur Erstellung der FPS-Anzeige auf
+createFPSDisplay()
 
 -- Laden der ESP-Einheit
 local esp = loadstring(game:HttpGet("https://raw.githubusercontent.com/TucoT9/RUBY-cheat/main/esp.lua"))()
@@ -34,7 +57,6 @@ esp:AddObjectListener(workspace, {
    Name = "soldier_model",
    Type = "Model",
    Color = Color3.fromRGB(255, 0, 0)  -- Leuchtend Rot
-
 
    -- Bestimme das primäre Teil des Modells als den HumanoidRootPart
    PrimaryPart = function(obj)
