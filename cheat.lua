@@ -33,7 +33,7 @@ esp.Players = false
 esp:AddObjectListener(workspace, {
    Name = "soldier_model",
    Type = "Model",
-   Color = Color3.fromRGB(255, 20, 147),
+   Color = Color3.fromRGB(139, 0, 0)  -- Dunkelrot,
 
    -- Bestimme das primäre Teil des Modells als den HumanoidRootPart
    PrimaryPart = function(obj)
@@ -98,15 +98,16 @@ local function handleDescendantAdded(descendant)
            })
        end
 
-       -- Wende Hitboxen auf das neue feindliche Modell an
-       local pos = descendant:FindFirstChild("HumanoidRootPart").Position
-       for _, bp in pairs(workspace:GetChildren()) do
-           if bp:IsA("BasePart") then
-               local distance = (bp.Position - pos).Magnitude
-               if distance <= 5 then
-                   bp.Transparency = trans
-                   bp.Size = size
-               end
+       -- Wende Hitboxen auf alle vorhandenen feindlichen Modelle im Workspace an
+for _, v in pairs(workspace:GetDescendants()) do
+   if v.Name == "soldier_model" and v:IsA("Model") and not v:FindFirstChild("friendly_marker") then
+       local head = v:FindFirstChild("Head") -- Suche nach dem Head-Teil
+       if head then
+           -- Setze die Hitboxen nur auf den Kopf
+           local distance = (head.Position - workspace.Baseplate.Position).Magnitude -- Beispiel-Position
+           if distance <= 5 then
+               head.Transparency = trans
+               head.Size = size
            end
        end
    end
