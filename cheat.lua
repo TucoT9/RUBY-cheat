@@ -33,7 +33,8 @@ esp.Players = false
 esp:AddObjectListener(workspace, {
    Name = "soldier_model",
    Type = "Model",
-   Color = Color3.fromRGB(139, 0, 0)  -- Dunkelrot,
+   Color = Color3.fromRGB(255, 0, 0)  -- Leuchtend Rot
+
 
    -- Bestimme das primäre Teil des Modells als den HumanoidRootPart
    PrimaryPart = function(obj)
